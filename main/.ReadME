@@ -1,0 +1,114 @@
+# ESP32-C6 Robot Car
+## Components
+* ESP32-C6
+* L298N H-Bridge
+* 4 DC Motors
+* HC-SR04 Ultrasonic Sensor
+* SG90 Servo Motor
+* External Battery Pack
+
+---
+
+# DC Motor Connections (L298N)
+
+## ESP32-C6 → L298N
+
+| ESP32 GPIO | L298N |
+| ---------- | ----- |
+| GPIO12     | IN1   |
+| GPIO13     | IN2   |
+| GPIO11     | IN3   |
+| GPIO10     | IN4   |
+
+## L298N → Motors
+
+| L298N       | Motor Side   |
+| ----------- | ------------ |
+| OUT1 + OUT2 | Left motors  |
+| OUT3 + OUT4 | Right motors |
+
+Two left motors are connected in parallel.
+
+Two right motors are connected in parallel.
+
+## Power
+
+| Connection | Target           |
+| ---------- | ---------------- |
+| Battery +  | L298N VIN / +12V |
+| Battery -  | L298N GND        |
+| ESP32 GND  | L298N GND        |
+
+Important: ESP32 and L298N must share the same GND.
+
+---
+
+# Ultrasonic Sensor (HC-SR04)
+
+| HC-SR04 | ESP32  |
+| ------- | ------ |
+| VCC     | 5V     |
+| GND     | GND    |
+| TRIG    | GPIO21 |
+| ECHO    | GPIO20 |
+
+The ultrasonic sensor measures the distance in front of the robot.
+
+---
+
+# Servo Motor (SG90)
+
+| Servo Wire      | ESP32 |
+| --------------- | ----- |
+| Signal (Orange) | GPIO8 |
+| VCC (Red)       | 5V    |
+| GND (Brown)     | GND   |
+
+The servo rotates the ultrasonic sensor to scan left and right.
+
+---
+
+# Software Modules
+
+## motor.c
+
+Controls:
+
+* Forward
+* Backward
+* Left turn
+* Right turn
+* Stop
+
+---
+
+## servo.c
+
+Controls:
+
+* Servo initialization
+* Servo angle (0° to 180°)
+
+---
+
+## ultrasonic.c
+
+Controls:
+
+* Trigger pulse
+* Echo measurement
+* Distance calculation in centimeters
+
+---
+
+# Main Goal
+
+The robot car should:
+
+1. Move forward.
+2. Measure distance using the ultrasonic sensor.
+3. Turn the servo to scan left and right.
+4. Decide the best direction.
+5. Avoid obstacles automatically.
+
+
