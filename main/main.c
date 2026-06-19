@@ -7,51 +7,45 @@
 #include "ultrasonic.h"
 
 
+void app_main(void){
+    servo_init();
+    ultrasonic_init();
+    motor_init();
 
-// void app_main(void){
-//     servo_init();
+    int distance = 0;
 
-//     while (1)
-//     {
-//         for(int i = 0; i<180;i++){
-//             servo_set_angle(i);
-//             vTaskDelay(pdMS_TO_TICKS(17));
-//         }
-//         for(int i = 180; i>0;i--){
-//             servo_set_angle(i);
-//             vTaskDelay(pdMS_TO_TICKS(17));
-//         }
-//     }
-    
-// }
+    while (1)
+    {
+        // scan forward
+        for(int i = 0; i <= 180; i++){
+            servo_set_angle(i);
+            distance = ultrasonic_get_distance_cm();
 
+            printf("Distance: %d\n", distance);
 
+            if(distance > 20){
+                motor_forward();
+            } else {
+                motor_stop();
+            }
 
-// void app_main(void)
-// {
-//     motor_init();
+            vTaskDelay(pdMS_TO_TICKS(25));
+        }
 
-//     while (1)
-//     {
-//         motor_forward();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
+        // scan back
+        for(int i = 180; i >= 0; i--){
+            servo_set_angle(i);
+            distance = ultrasonic_get_distance_cm();
 
-//         motor_stop();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
+            printf("Distance: %d\n", distance);
 
-//         motor_left_forward();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
+            if(distance > 20){
+                motor_forward();
+            } else {
+                motor_stop();
+            }
 
-//         motor_stop();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
-        
-//         motor_right_forward();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
-
-        
-//         motor_stop();
-//         vTaskDelay(pdMS_TO_TICKS(3000));
-
-
-//     }
-// }
+            vTaskDelay(pdMS_TO_TICKS(25));
+        }
+    }
+}
