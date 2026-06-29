@@ -1,10 +1,11 @@
 #ifndef BUTTON_H
 #define BUTTON_H
+#include <stdbool.h>
+#include "driver/gpio.h"
 
 
 void button_init(void);
-void button_on(void);
-void button_off(void);
+bool button_pressed(void);
 
 
 #endif
